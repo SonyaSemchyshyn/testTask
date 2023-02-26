@@ -29,13 +29,14 @@ class PhonesCategory {
     get dropdownSortPrice (){
         return $('[title=\'від дорогих до дешевих\']');
     }
-    get firstItemPrice (){
-        return $('span.sum')
+    get itemPrice (){
+        return this.allPhonesOnPage.$$('.sum')
     }
-    
-    get allPhones (){
-        return $$('.products-layout__container products-layout--grid:first-child').get(1)
+
+    get allPhonesOnPage (){
+        return $$('.product-card__buy-box')
     }
+
 
 
     get price (){

@@ -1,17 +1,14 @@
 const assert = require('assert');
+const config = require("../../wdio.conf").config;
 class MainPage {
     expectedTitle = 'АЛЛО - національний маркетплейс із найширшим асортиментом';
 
     async open(){
-        browser.url(process.env.BASE_URL);
+        browser.url(config.baseUrl);
         await browser.pause(2000);
     }
 
     async verifyTitle(){
-        
-        await browser.waitUntil(async function (){
-            return browser.getTitle() !== "";
-        }, 3000);
         const title = await browser.getTitle();
         assert.strictEqual(title, this.expectedTitle)  
     }
@@ -98,10 +95,5 @@ class MainPage {
     }
 
 }
-// function checkPrice (item,price){
-//     let arr = [item];
-//     for(let i =0; i>item.lenght; i++){
-//         item[i].price>=item[i-1].price;
-//     }
 
 module.exports = new MainPage();

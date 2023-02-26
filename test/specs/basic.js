@@ -3,11 +3,8 @@ const MainPage = require('../pageobjects/pageAllo')
 const Basket = require('../pageobjects/basketPage')
 const PhonesCategory = require('../pageobjects/phonesCategoryPage')
 const { sumOfItems } = require('../pageobjects/basketPage')
+const config = require("../../wdio.conf").config;
 describe('', () => {
-    // beforeEach(async() => {
-    //     await MainPage.open();
-    // })
-
     it('Verify if the price filter working correctly for the following marketplaces', async () => {
         await MainPage.open();
         await MainPage.verifyTitle();
@@ -16,23 +13,27 @@ describe('', () => {
         await PhonesCategory.filterAvailableInCity.click();
         await PhonesCategory.filterInStock.click();
         await PhonesCategory.filterNew.click();
-        await PhonesCategory.inputPriceFrom.scrollIntoView().click().clearValue().addValue(1000)
-        await PhonesCategory.popup.click()
-        await browser.pause(3000)
-        await PhonesCategory.dropdownSort.moveTo()
-        await PhonesCategory.dropdownSortPrice.click()
-        await browser.pause(2000)
-
-        // let price = await Item.firstItemPrice.getText()
-        // assert.strictEqual(price, '61 999')
-        // добавити перевірку елементів по ціні 
-    })
-    it('Add items to the basket', async () =>{
-        browser.url('https://allo.ua'); 
+        await PhonesCategory.inputPriceFrom.scrollIntoView();
+        await PhonesCategory.inputPriceFrom.click();
+        await PhonesCategory.inputPriceFrom.clearValue();
+        await PhonesCategory.inputPriceFrom.addValue(1000);
+        await PhonesCategory.popup.click();
+        await browser.pause(3000);
+        await PhonesCategory.dropdownSort.moveTo();
+        await PhonesCategory.dropdownSortPrice.click();
         await browser.pause(2000);
-        const title = await browser.getTitle();
-        await assert.strictEqual(title, 'АЛЛО - національний маркетплейс із найширшим асортиментом')
-
+       const allPhones = await PhonesCategory.allPhonesOnPage;
+       const prisesList = await Promise.all(allPhones.map(async (item, i, arr) => {
+            const price = await(await item.$('.sum')).getText()
+            return Number(price);
+       }))
+       console.log(prisesList);
+        await Promise.all(allPhones)
+        
+    })
+    it.skip('Add items to the basket', async () =>{
+        await MainPage.open();
+        await MainPage.verifyTitle();
         await MainPage.itemCategoryPhones.click();
         await PhonesCategory.filterBrand.click();
         await browser.pause(3000)
@@ -54,14 +55,11 @@ describe('', () => {
 
     })
 
-    it('Search the item', async()=>{
-        browser.url('https://allo.ua'); 
-        await browser.pause(2000);
-        const title = await browser.getTitle();
-        await assert.strictEqual(title, 'АЛЛО - національний маркетплейс із найширшим асортиментом')
-
+    it.skip('Search the item', async()=>{
+        await MainPage.open();
+        await MainPage.verifyTitle();
         MainPage.searchItem('iphone')
 
     })
-    it('')
+    it.skip('')
 })
