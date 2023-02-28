@@ -2,6 +2,7 @@ class PhonesCategory {
     get filterBrand (){
         return $("=Samsung");
     } 
+    
     get filterAvailableInCity (){
         return $('a[data-id=\"available_in_city\"]');
     }
@@ -27,8 +28,9 @@ class PhonesCategory {
     }
 
     get dropdownSortPrice (){
-        return $('[title=\'від дорогих до дешевих\']');
+        return $('[title=\'від дешевих до дорогих\']');
     }
+
     get itemPrice (){
         return this.allPhonesOnPage.$$('.sum')
     }
@@ -37,10 +39,12 @@ class PhonesCategory {
         return $$('.product-card__buy-box')
     }
 
+    get allIphones(){
+        return $$('.product-card__content')
+    }
 
-
-    get price (){
-        return $('span.sum')
+    get titleIphone(){
+        return $$('a[title=\'IPhone\']')
     }
 }
 module.exports = new PhonesCategory();

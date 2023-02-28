@@ -1,5 +1,6 @@
 const assert = require('assert');
 const config = require("../../wdio.conf").config;
+const PhonesCategory = require('./phonesCategoryPage');
 class MainPage {
     expectedTitle = 'АЛЛО - національний маркетплейс із найширшим асортиментом';
 
@@ -12,34 +13,10 @@ class MainPage {
         const title = await browser.getTitle();
         assert.strictEqual(title, this.expectedTitle)  
     }
+
     get itemCategoryPhones (){
         return $("a[title=\"Смартфони та телефони\"]");
     }
-
-    // get filterBrand (){
-    //     return $("=Samsung");
-    // } 
-    // є варіант по тексту пошукати а є варіант пошукати по ссилці
-
-    // get filterAvailableInCity (){
-    //     return $('a[data-id=\"available_in_city\"]');
-    // }
-
-    // get filterInStock (){
-    //     return $('a[data-id=\'in_stock\']')
-    // }
-
-    // get filterNew (){
-    //     return $('a[data-id=\'new\']')
-    // }
-
-    // get inputPriceFrom(){
-    //     return $('input:first-child.f-range__form-input');
-    // }
-
-    // get popup (){
-    //     return $('span.f-popup__btn-message');
-    // }
 
     get dropdownSort (){
         return $('span.sort-by__current');
@@ -61,35 +38,44 @@ class MainPage {
         return $('span.sum')
     }
 
-    // get buyBtn (){
-    //     return $('button[title=\'Купити\']')
-    // }
-    // get buyBtnLight(){
-    //     return $('button.v-btn--cart')
-    // }
-    // get comeBackBtn(){
-    //     return $('button.comeback')
-    // }
+    async getPriceList(){
+        const allPhones = await PhonesCategory.allPhonesOnPage;
+        const prisesList = await Promise.all(allPhones.map(async (item, i, arr) => {
+            const price = await(await item.$('.sum')).getText()
+            return Number(price);
+       }))
+        await Promise.all(prisesList);
+    }
+   
     get returnToMainPage(){
         return $('[title=\'Перейти на головну сторінку\']')
     }
+
     get chooseCategoryFishBtn(){
         return $("//p[contains(text(),'Туризм та риболовля')] ");
     }
+
     get filterLights (){
         return $("=Ліхтарі");
     }
+
     get itemTitle (){
         return $('a.product-card__title')
     }
+
     get searchInput(){
-        return $('#earch-form__input');
+        return $('#search-form__input');
     }
+
     get showAllResultsBtn(){
         return $('button.search-result__nav-link')
     }
+    
     async searchItem (itemName) {
+        await this.searchInput.waitForClickable()
+        await this.searchInput.click()
         await this.searchInput.setValue(itemName);
+        await this.showAllResultsBtn.waitForClickable()
         await this.showAllResultsBtn.click();
 
     }
