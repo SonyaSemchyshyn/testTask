@@ -31,10 +31,6 @@ class PhonesCategory {
         return $('[title=\'від дешевих до дорогих\']');
     }
 
-    get itemPrice (){
-        return this.allPhonesOnPage.$$('.sum')
-    }
-
     get allPhonesOnPage (){
         return $$('.product-card__buy-box')
     }
@@ -47,4 +43,5 @@ class PhonesCategory {
         return $$('a[title=\'IPhone\']')
     }
 }
-module.exports = new PhonesCategory();
+
+export default new PhonesCategory();

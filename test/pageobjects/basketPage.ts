@@ -33,4 +33,5 @@ class Basket {
         return $('svg.vi i-shared vi__close remove')
     }
 }
-module.exports = new Basket();
+
+export default  new Basket();

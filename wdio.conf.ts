@@ -1,10 +1,17 @@
-exports.config = {
+import type { Options } from '@wdio/types'
+
+export const config: Options.Testrunner = {
     //
     // ====================
     // Runner Configuration
     // ====================
     // WebdriverIO supports running e2e tests as well as unit and component tests.
     runner: 'local',
+    autoCompileOpts: {
+        tsNodeOpts: {
+            project: './tsconfig.json'
+        }
+    },
     
     //
     // ==================
@@ -23,7 +30,7 @@ exports.config = {
     // will be called from there.
     //
     specs: [
-        './test/specs/**/*.js'
+        './test/specs/**/*.ts'
     ],
     // Patterns to exclude.
     exclude: [
@@ -112,9 +119,9 @@ exports.config = {
     // Services take over a specific job you don't want to take care of. They enhance
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
-    port: 9516,
-    services:[ ['chromedriver' ,{ chromedriverCustomPath:"//usr//local//bin//chromedriver"  }]],
-    chromedriverArgs: ['--port=9516', '--url-base=\'/\''], // default for ChromeDriver
+    services: [ [ 'chromedriver', { chromedriverCustomPath:"//usr//local//bin//chromedriver" }] ],
+    // services: [ 'chromedriver'],
+    
     // Framework you want to run your specs with.
     // The following are supported: Mocha, Jasmine, and Cucumber
     // see also: https://webdriver.io/docs/frameworks

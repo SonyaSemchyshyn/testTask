@@ -1,7 +1,7 @@
-const assert = require('assert')
-const MainPage = require('../pageobjects/mainPage')
-const Basket = require('../pageobjects/basketPage')
-const PhonesCategory = require('../pageobjects/phonesCategoryPage')
+import * as assert from 'assert';
+import Basket from '../pageobjects/basketPage.js';
+import MainPage from '../pageobjects/mainPage.js';
+import PhonesCategory from'../pageobjects/phonesCategoryPage.js';
 
 describe('', () => {
     beforeEach(async()=>{
@@ -30,7 +30,6 @@ describe('', () => {
             const priceNum1 = Number(price1);
             return priceNum1;
        }))
-        await Promise.all(allPhones);
     })
     it('Add items to the basket', async () =>{
         await MainPage.verifyTitle();

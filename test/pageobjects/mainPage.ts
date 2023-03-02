@@ -1,6 +1,7 @@
-const assert = require('assert');
-const config = require("../../wdio.conf").config;
-const PhonesCategory = require('./phonesCategoryPage');
+import * as assert from 'assert';
+import { config } from"../../wdio.conf.js";
+import PhonesCategory from './phonesCategoryPage.js';
+
 class MainPage {
     expectedTitle = 'АЛЛО - національний маркетплейс із найширшим асортиментом';
 
@@ -79,7 +80,6 @@ class MainPage {
         await this.showAllResultsBtn.click();
 
     }
-
 }
 
-module.exports = new MainPage();
+export default new MainPage();
