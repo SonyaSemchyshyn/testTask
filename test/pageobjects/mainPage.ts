@@ -26,27 +26,6 @@ class MainPage {
     get dropdownSortPrice (){
         return $('[title=\'від дорогих до дешевих\']');
     }
-
-    get firstTel (){
-        return $('span.sum')
-    }
-
-    get allPhones (){
-        return $('.products-layout__container products-layout--grid')
-    }
-
-    get price (){
-        return $('span.sum')
-    }
-
-    async getPriceList(){
-        const allPhones = await PhonesCategory.allPhonesOnPage;
-        const prisesList = await Promise.all(allPhones.map(async (item, i, arr) => {
-            const price = await(await item.$('.sum')).getText()
-            return Number(price);
-       }))
-        await Promise.all(prisesList);
-    }
    
     get returnToMainPage(){
         return $('[title=\'Перейти на головну сторінку\']')
@@ -58,10 +37,6 @@ class MainPage {
 
     get filterLights (){
         return $("=Ліхтарі");
-    }
-
-    get itemTitle (){
-        return $('a.product-card__title')
     }
 
     get searchInput(){
@@ -78,7 +53,6 @@ class MainPage {
         await this.searchInput.setValue(itemName);
         await this.showAllResultsBtn.waitForClickable()
         await this.showAllResultsBtn.click();
-
     }
 }
 

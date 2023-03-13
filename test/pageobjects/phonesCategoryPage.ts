@@ -1,11 +1,7 @@
-class PhonesCategory {
+class PhonesCategoryPage {
     get filterBrand (){
         return $("=Samsung");
     } 
-    
-    get filterAvailableInCity (){
-        return $('a[data-id=\"available_in_city\"]');
-    }
 
     get filterInStock (){
         return $('a[data-id=\'in_stock\']')
@@ -34,14 +30,34 @@ class PhonesCategory {
     get allPhonesOnPage (){
         return $$('.product-card__buy-box')
     }
-
-    get allIphones(){
-        return $$('.product-card__content')
+    
+    async getPriceList(){
+        const allPhones1 = await this.allPhonesOnPage;
+        const pricesList = await allPhones1.map(async (item) => {
+            const price1 = await(await item.$('.v-pb__cur .sum')).getText()
+            const priceNum1 = price1.replace(/\s/g,"");
+            return Number(priceNum1);
+         });
+        return pricesList;
     }
 
-    get titleIphone(){
-        return $$('a[title=\'IPhone\']')
+    async telephoneTitle (){
+        const title = await $('a.product-card__title').getText();
+        return title;
+    }
+
+    get allIphonesOnPage(){
+        return $$('a.product-card__title')
+    }
+
+    async getIPhonesTitles(){
+        const allIPhonesOnPage = await this.allIphonesOnPage;
+        const ListOfIpnones = await this.allIphonesOnPage.map(async(item)=> {
+            const title = await(await item.getText());
+            return title; 
+        })
+        return ListOfIpnones;
     }
 }
 
-export default new PhonesCategory();
+export default new PhonesCategoryPage();
